@@ -7,6 +7,8 @@ int main()
 	printf("sizeof char = %ld\n", sizeof(char));
 	printf("sizeof long = %ld\n", sizeof(long));
 	printf("sizeof double = %ld\n", sizeof(double));
+	printf("sizeof float = %ld\n", sizeof(float));
+	printf("sizeof char * = %ld\n", sizeof(char *));
 
 	return 0;
 }
