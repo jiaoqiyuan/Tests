@@ -8,10 +8,10 @@ then
 	#直接使用“./xxx.run或者./xxx.bin”安装	
 	if [ $# == 2 ]
 	then
-		echo $2 | su root -c "chmod a+x '$1'"
+		echo $2 | sudo -S chmod a+x $1
 		#To install westone products
-		echo $2 | su root -c "/usr/local/wstsec/core/tool_protect stop 123456"
-		echo $2 | su root -c "'$1' --nox11"
+		echo $2 | sudo -S /usr/local/wstsec/core/tool_protect stop 123456
+		echo $2 | sudo -S $1 --nox11
 	elif [ $# == 1 ]
 	then
 		chmod a+x $1
@@ -33,7 +33,7 @@ then
 	echo "是deb安装包"
 	if [ $# == 2 ]
 	then
-		echo $2 | su root -c "dpkg -i '$1'"
+		echo $2 | sudo -S dpkg -i $1
 	elif [ $# ==1 ]
 	then
 		dpkg -ivh $1
@@ -53,7 +53,7 @@ then
 	echo "是rpm安装包"
 	if [ $# == 2 ]
 	then
-		echo $2 | su root -c "rpm -i '$1'"
+		echo $2 | sudo -S rpm -i $1
 	elif [ $# == 1 ]
 	then
 		rpm -i $1
@@ -71,8 +71,8 @@ then
     echo "运行shell脚本"
     if [ $# == 2 ]
 	then
-		echo $2 | su root -c "chmod a+x '$1'"
-        echo $2 | su root -c "'$1'"
+		echo $2 | sudo -S chmod a+x $1
+        echo $2 | sudo -S $1
 
 	elif [ $# == 1 ]
 	then
