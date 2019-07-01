@@ -7,6 +7,7 @@ int main(int argc, char* argv[]) {
 	int ret = 0;
 	char buf[512] = {0};
 	char cmd[512] = {0};
+	//获取屏幕分辨率
 	fp = popen("xrandr --current | head -n 1 | awk -F ',' '{print $2}' | awk '{print $2 \"x\" $4}'", "r");
 	if (fgets(buf, sizeof(buf), fp)) {
 		buf[strlen(buf)-1] = '\0';
