@@ -7,3 +7,9 @@ ffmpeg -f x11grab -framerate 10 -s 3840x2160 -i :0.0 -qscale 1 a.mp4 -y > /dev/n
 ```
 
 使用popen运行命令，然后往打开的对应文件描述符中传入'q'以结束录制。
+
+截屏命令：
+
+```
+import -window root test.jpg
+```
