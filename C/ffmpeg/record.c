@@ -15,11 +15,12 @@ int main(int argc, char* argv[]) {
 	}
 	fclose(fp);
 
-	snprintf(cmd, sizeof(cmd), "ffmpeg -f x11grab -framerate 10 -s %s -i :0.0 -qscale 1 a.mp4 -y > /dev/null 2>&1", buf);
+	//snprintf(cmd, sizeof(cmd), "ffmpeg -f x11grab -framerate 10 -s %s -i :0.0 -qscale 1 a.mp4 -y > /dev/null 2>&1", buf);
+	snprintf(cmd, sizeof(cmd), "./ffmpeg -f x11grab -s %s -r 10 -t 10 -i :0.0 -qscale 1 out.mp4 -y > /dev/null 2>&1", buf);
 	printf("cmd = %s\n", cmd);
 	fp = popen(cmd, "w");
-	sleep(5);
-	fprintf(fp, "q");
+	//sleep(5);
+	//fprintf(fp, "q");
 	fclose(fp);
 	return 0;
 }
