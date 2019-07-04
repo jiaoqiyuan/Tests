@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char* argv[]) {
+void use_ffmpeg(){
 	FILE *fp = NULL;
 	int ret = 0;
 	char buf[512] = {0};
@@ -22,5 +23,23 @@ int main(int argc, char* argv[]) {
 	//sleep(5);
 	//fprintf(fp, "q");
 	fclose(fp);
+
+}
+
+void use_image(){
+	FILE *fp = NULL;
+	int ret = 0;
+	char result[512] = {0};
+	for(int i = 1; i <= 50; i++) {
+		char cmd[256] = {0};
+		snprintf(cmd, sizeof(cmd), "import -window root tmp/%d.jpg", i);
+		usleep(100000);
+		system(cmd);
+	}
+	system("./ffmpeg -f image2 -r 5 -i tmp/%d.jpg -vcodec mpeg4 -b 512k test.mp4 -y");
+}
+
+int main(int argc, char* argv[]) {
+	use_image();
 	return 0;
 }

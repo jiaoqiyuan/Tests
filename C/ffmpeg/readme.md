@@ -14,3 +14,10 @@ ffmpeg -f x11grab -s 1920x1080 -r 10 -t 10 -i :0.0 -qscale 1 out.mp4 -y > /dev/n
 ```
 import -window root test.jpg
 ```
+
+图片转视频：
+
+```
+./ffmpeg -loop 1 -f image2 -i /home/wst/jqy/ffmpeg/%3d.jpg -vcodec mpeg4 -r 1 -t 8 test.mp4 -y
+```
+
