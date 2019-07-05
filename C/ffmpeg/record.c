@@ -26,6 +26,7 @@ void use_ffmpeg(){
 
 }
 
+//先截屏，再使用ffmpeg将多个截图转化成视频
 void use_image(){
 	FILE *fp = NULL;
 	int ret = 0;
