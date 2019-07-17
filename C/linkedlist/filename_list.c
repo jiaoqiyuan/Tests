@@ -24,19 +24,21 @@ void insert_to_filelist(Filenames *head, char *filename, int len)
 	node->next = node_tmp;
 }
 
-Filenames *clear_filelist(Filenames *head)
+void clear_filelist(Filenames *head)
 {
 	Filenames *node = head->next;
+	
 	while(node != NULL) {
 		Filenames *tmp = node;
 		node = node->next;
+		tmp->next = NULL;
 		free(tmp->filename);
 		free(tmp);
-		tmp->filename = NULL;
-		tmp = NULL;
+		// tmp->filename = NULL;
+		// tmp = NULL;
+		
 	}
-
-	return head;
+	head->next = NULL;
 }
 
 int if_contains(Filenames *head, char *filename)
@@ -61,7 +63,7 @@ void print_filelist(Filenames *head)
 	}
 }
 
-
+/*
 int main()
 {
 	Filenames *head = create_filelist();
@@ -76,3 +78,4 @@ int main()
 	print_filelist(head);
 	return 0;
 }
+*/

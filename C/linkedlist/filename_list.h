@@ -14,7 +14,7 @@ Filenames *create_filelist();
 //插入数据到list
 void insert_to_filelist(Filenames *head, char *filename, int len);
 //清空list
-Filenames *clear_filelist(Filenames *head);
+void clear_filelist(Filenames *head);
 //检查是否包含指定的文件名
 int if_contains(Filenames *head, char *filename);
 //打印list
