@@ -15,8 +15,8 @@ void test_point_args() {
     {
         printf("handle is not null\n");
     }
-    
-    
+    //用完记得free
+    free(handle);
 }
 
 int main(int argc, char *argv[]) {
