@@ -17,13 +17,14 @@ void use_ffmpeg(){
 	fclose(fp);
 
 	//snprintf(cmd, sizeof(cmd), "ffmpeg -f x11grab -framerate 10 -s %s -i :0.0 -qscale 1 a.mp4 -y > /dev/null 2>&1", buf);
-	snprintf(cmd, sizeof(cmd), "./ffmpeg -f x11grab -s %s -r 10 -t 10 -i :0.0 -qscale 1 out.mp4 -y > /dev/null 2>&1", buf);
+	snprintf(cmd, sizeof(cmd), "./ffmpeg -f x11grab -s %s -r 5 -t 60 -i :0.0 -qscale 1 out.mp4 -y > /dev/null 2>&1", buf);
 	printf("cmd = %s\n", cmd);
 	fp = popen(cmd, "w");
-	//sleep(5);
-	//fprintf(fp, "q");
 	fclose(fp);
-
+	snprintf(cmd, sizeof(cmd), "./ffmpeg -i out.mp4 -b 300k out300.mp4 -y");
+	printf("cmd = %s\n", cmd);
+	fp = popen(cmd, "r");
+	fclose(fp);
 }
 
 //先截屏，再使用ffmpeg将多个截图转化成视频
@@ -41,6 +42,7 @@ void use_image(){
 }
 
 int main(int argc, char* argv[]) {
-	use_image();
+	//use_image();
+	use_ffmpeg();
 	return 0;
 }
