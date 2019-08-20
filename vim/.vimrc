@@ -37,6 +37,9 @@ call plug#end()
 
 nnoremap <leader>v :NERDTreeFind<cr>
 nnoremap <leader>g :NERDTreeToggle<cr>
+nnoremap <C-h> :bp<CR>
+nnoremap <C-l> :bn<CR>
+nnoremap <C-^> :bd<CR>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=[
 		\ '\.git$', '\.hg$', '\.svn$', '\.stversions$', '\.swp$', '\.DS_Store$',
