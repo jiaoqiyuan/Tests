@@ -35,6 +35,8 @@ Plug 'majutsushi/tagbar'
 
 call plug#end()
 
+let g:airline#extensions#tabline#enabled=1
+
 nnoremap <leader>v :NERDTreeFind<cr>
 nnoremap <leader>g :NERDTreeToggle<cr>
 nnoremap <C-h> :bp<CR>
