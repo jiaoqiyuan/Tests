@@ -1,0 +1,17 @@
+gcc my_producer.c -o my_producer  -lrdkafka -lz -lpthread -lrt -I/usr/include/librdkafka
+gcc my_consumer.c -o my_consumer  -lrdkafka -lz -lpthread -lrt -I/usr/include/librdkafka
+
+# 启动 zookeepre 和 kafka
+
+bin/zookeeper-server-start.sh config/zookeeper.properties
+bin/kafka-server-start.sh config/server.properties
+
+# 创建 topic
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test_topic
+
+# 查看 topic
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+# 启动 my_producer 和 my_consumer
+./my_producer localhost:9092 test_topic
+./my_consumer -b localhost:9092 -t test_topic
