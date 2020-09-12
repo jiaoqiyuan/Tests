@@ -131,6 +131,17 @@ int main() {
 
 /* compiler specific configuration */
 
+/* prevent warnings for unused, macro-generated functions */
+#if __GNUC__ >= 3
+#  ifndef UNUSED
+#    define UNUSED  __attribute__((unused))
+#  endif
+#else
+#  ifndef UNUSED
+#    define UNUSED
+#  endif
+#endif
+
 #if UINT_MAX == 0xffffffffu
 typedef unsigned int khint32_t;
 #elif ULONG_MAX == 0xffffffffu
@@ -143,21 +154,11 @@ typedef unsigned long khint64_t;
 typedef unsigned long long khint64_t;
 #endif
 
-#ifndef kh_inline
 #ifdef _MSC_VER
 #define kh_inline __inline
 #else
 #define kh_inline inline
 #endif
-#endif /* kh_inline */
-
-#ifndef klib_unused
-#if (defined __clang__ && __clang_major__ >= 3) || (defined __GNUC__ && __GNUC__ >= 3)
-#define klib_unused __attribute__ ((__unused__))
-#else
-#define klib_unused
-#endif
-#endif /* klib_unused */
 
 typedef khint32_t khint_t;
 typedef khint_t khiter_t;
@@ -192,7 +193,7 @@ typedef khint_t khiter_t;
 static const double __ac_HASH_UPPER = 0.77;
 
 #define __KHASH_TYPE(name, khkey_t, khval_t) \
-	typedef struct kh_##name##_s { \
+	typedef struct { \
 		khint_t n_buckets, size, n_occupied, upper_bound; \
 		khint32_t *flags; \
 		khkey_t *keys; \
@@ -255,11 +256,11 @@ static const double __ac_HASH_UPPER = 0.77;
 				memset(new_flags, 0xaa, __ac_fsize(new_n_buckets) * sizeof(khint32_t)); \
 				if (h->n_buckets < new_n_buckets) {	/* expand */		\
 					khkey_t *new_keys = (khkey_t*)krealloc((void *)h->keys, new_n_buckets * sizeof(khkey_t)); \
-					if (!new_keys) { kfree(new_flags); return -1; }		\
+					if (!new_keys) return -1;							\
 					h->keys = new_keys;									\
 					if (kh_is_map) {									\
 						khval_t *new_vals = (khval_t*)krealloc((void *)h->vals, new_n_buckets * sizeof(khval_t)); \
-						if (!new_vals) { kfree(new_flags); return -1; }	\
+						if (!new_vals) return -1;						\
 						h->vals = new_vals;								\
 					}													\
 				} /* otherwise shrink */								\
@@ -352,6 +353,32 @@ static const double __ac_HASH_UPPER = 0.77;
 			__ac_set_isdel_true(h->flags, x);							\
 			--h->size;													\
 		}																\
+	}								\
+									\
+	SCOPE void kh_free_##name(kh_##name##_t *h,			\
+				  void (*func)(khkey_t key))		\
+	{								\
+	  khiter_t i;							\
+	  for(i = kh_begin(h); i != kh_end(h); ++i)			\
+	    {								\
+	      if(kh_exist(h, i))					\
+		{							\
+		  (func)(kh_key(h, i));					\
+		}							\
+	    }								\
+	}								\
+									\
+	SCOPE void kh_free_vals_##name(kh_##name##_t *h,		\
+				  void (*func)(khval_t key))		\
+	{								\
+	  khiter_t i;							\
+	  for(i = kh_begin(h); i != kh_end(h); ++i)			\
+	    {								\
+	      if(kh_exist(h, i))					\
+		{							\
+		  (func)(kh_val(h, i));					\
+		}							\
+	    }								\
 	}
 
 #define KHASH_DECLARE(name, khkey_t, khval_t)		 					\
@@ -363,7 +390,7 @@ static const double __ac_HASH_UPPER = 0.77;
 	__KHASH_IMPL(name, SCOPE, khkey_t, khval_t, kh_is_map, __hash_func, __hash_equal)
 
 #define KHASH_INIT(name, khkey_t, khval_t, kh_is_map, __hash_func, __hash_equal) \
-	KHASH_INIT2(name, static kh_inline klib_unused, khkey_t, khval_t, kh_is_map, __hash_func, __hash_equal)
+	KHASH_INIT2(name, UNUSED static kh_inline, khkey_t, khval_t, kh_is_map, __hash_func, __hash_equal)
 
 /* --- BEGIN OF HASH FUNCTIONS --- */
 
@@ -392,7 +419,7 @@ static const double __ac_HASH_UPPER = 0.77;
   @param  s     Pointer to a null terminated string
   @return       The hash value
  */
-static kh_inline khint_t __ac_X31_hash_string(const char *s)
+UNUSED static kh_inline khint_t __ac_X31_hash_string(const char *s)
 {
 	khint_t h = (khint_t)*s;
 	if (h) for (++s ; *s; ++s) h = (h << 5) - h + (khint_t)*s;
@@ -409,7 +436,7 @@ static kh_inline khint_t __ac_X31_hash_string(const char *s)
  */
 #define kh_str_hash_equal(a, b) (strcmp(a, b) == 0)
 
-static kh_inline khint_t __ac_Wang_hash(khint_t key)
+UNUSED static kh_inline khint_t __ac_Wang_hash(khint_t key)
 {
     key += ~(key << 15);
     key ^=  (key >> 10);
@@ -419,7 +446,7 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
     key ^=  (key >> 16);
     return key;
 }
-#define kh_int_hash_func2(key) __ac_Wang_hash((khint_t)key)
+#define kh_int_hash_func2(k) __ac_Wang_hash((khint_t)key)
 
 /* --- END OF HASH FUNCTIONS --- */
 
@@ -548,6 +575,10 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
  */
 #define kh_n_buckets(h) ((h)->n_buckets)
 
+#define kh_free(name, h, f) kh_free_##name(h, f)
+
+#define kh_free_vals(name, h, f) kh_free_vals_##name(h, f)
+
 /*! @function
   @abstract     Iterate over the entries in the hash table
   @param  h     Pointer to the hash table [khash_t(name)*]
@@ -576,7 +607,7 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
 		code;												\
 	} }
 
-/* More convenient interfaces */
+/* More conenient interfaces */
 
 /*! @function
   @abstract     Instantiate a hash set containing integer keys
@@ -594,7 +625,7 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
 	KHASH_INIT(name, khint32_t, khval_t, 1, kh_int_hash_func, kh_int_hash_equal)
 
 /*! @function
-  @abstract     Instantiate a hash set containing 64-bit integer keys
+  @abstract     Instantiate a hash map containing 64-bit integer keys
   @param  name  Name of the hash table [symbol]
  */
 #define KHASH_SET_INIT_INT64(name)										\

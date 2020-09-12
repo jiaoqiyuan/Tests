@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>网络波动监测平台</title>
+  <link rel="icon" href="data:image/x-icon;," type="image/x-icon" />
+<link href="/noah/css/d8104cbd23693684ed7f.css" rel="stylesheet"></head>
+
+<body>
+  <div id="app">
+  </div>
+<script type="text/javascript" src="/noah/js/vendors.js"></script><script type="text/javascript" src="/noah/js/react_vendors.js"></script><script type="text/javascript" src="/noah/js/component_vendors.js"></script><script type="text/javascript" src="/noah/js/index.js"></script></body>
+
+</html>
