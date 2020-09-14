@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/mac/CLionProjects/hellocpp/OperatorOverload/Person.cpp
+iostream
+/Users/mac/CLionProjects/hellocpp/OperatorOverload/iostream
+Person.h
+/Users/mac/CLionProjects/hellocpp/OperatorOverload/Person.h
+
+/Users/mac/CLionProjects/hellocpp/OperatorOverload/Person.h
+
