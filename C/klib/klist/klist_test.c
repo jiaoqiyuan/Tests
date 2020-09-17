@@ -1,16 +1,19 @@
 #include <stdio.h>
 #include "klist.h"
 
-#define list_bs_elem_destroy(x) free((void *)x->data)
+#define list_bs_elem_destroy(x)
+#define list_bs_elem_bak_destroy(x) free(x->data)
+#define list_int_set_destroy(x)
 
 KLIST_INIT(list_bs_elems, char *, list_bs_elem_destroy);
-KLIST_INIT(list_int_set, int, list_bs_elem_destroy);
+KLIST_INIT(list_bs_elems_bak, char *, list_bs_elem_bak_destroy);
+KLIST_INIT(list_int_set, int, list_int_set_destroy);
 
-void copy_klist(klist_t(list_bs_elems) *l_src, klist_t(list_bs_elems) *l_dest) {
+void copy_klist(klist_t(list_bs_elems) *l_src, klist_t(list_bs_elems_bak) *l_dest) {
     kliter_t(list_bs_elems) *iter_list = NULL;
     for (iter_list = kl_begin(l_src); iter_list != kl_end(l_src); iter_list = kl_next(iter_list)) {
         char *value = kl_val(iter_list);
-        *kl_pushp(list_bs_elems, l_dest) = value;
+        *kl_pushp(list_bs_elems_bak, l_dest) = value;
     }
 
 }
@@ -38,17 +41,11 @@ int klist_test() {
         printf("value = %s\n", value);
     }
     
-    klist_t(list_bs_elems) *l_bs_elems_bak = kl_init(list_bs_elems); 
+    klist_t(list_bs_elems_bak) *l_bs_elems_bak = kl_init(list_bs_elems_bak); 
     copy_klist(l_bs_elems, l_bs_elems_bak);
     
+    kl_destroy(list_bs_elems_bak, l_bs_elems_bak);
     kl_destroy(list_bs_elems, l_bs_elems);
-//    for (iter_list = kl_begin(l_bs_elems); iter_list != kl_end(l_bs_elems); iter_list = kl_next(iter_list)) {
-//        char *value = kl_val(iter_list);
-//        printf("value = %s\n", value);
-//    }
-
-
-    kl_destroy(list_bs_elems, l_bs_elems_bak);
     return 0;
 }
 
