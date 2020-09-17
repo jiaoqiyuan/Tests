@@ -1,6 +1,7 @@
 /* Include the sbrk function */
 
 #include <unistd.h>
+#include <obstack.h>
 
 int has_initialized = 0;
 void *managed_memory_start;

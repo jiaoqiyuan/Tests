@@ -1,0 +1,146 @@
+排查一个怀疑是内存泄漏的问题，记录一下使用 gperftools 排查的过程。
+
+## 下载安装
+
+```
+git clone https://github.com/gperftools/gperftools
+cd gperftools
+./autogen.sh
+./configure
+make -j
+sudo make install
+```
+
+安装完成后，perftools 相关的库文件被安装在了 `/usr/local/lib/` 目录下：
+
+```
+$ ll /usr/local/lib/libtcmalloc*
+-rw-r--r-- 1 root root 6.4M Sep 11 19:27 /usr/local/lib/libtcmalloc.a
+-rw-r--r-- 1 root root 6.8M Sep 11 19:27 /usr/local/lib/libtcmalloc_and_profiler.a
+-rwxr-xr-x 1 root root 1.1K Sep 11 19:27 /usr/local/lib/libtcmalloc_and_profiler.la
+lrwxrwxrwx 1 root root   33 Sep 11 19:27 /usr/local/lib/libtcmalloc_and_profiler.so -> libtcmalloc_and_profiler.so.4.6.0
+lrwxrwxrwx 1 root root   33 Sep 11 19:27 /usr/local/lib/libtcmalloc_and_profiler.so.4 -> libtcmalloc_and_profiler.so.4.6.0
+-rwxr-xr-x 1 root root 3.0M Sep 11 19:27 /usr/local/lib/libtcmalloc_and_profiler.so.4.6.0
+-rw-r--r-- 1 root root 7.0M Sep 11 19:27 /usr/local/lib/libtcmalloc_debug.a
+-rwxr-xr-x 1 root root 1020 Sep 11 19:27 /usr/local/lib/libtcmalloc_debug.la
+lrwxrwxrwx 1 root root   26 Sep 11 19:27 /usr/local/lib/libtcmalloc_debug.so -> libtcmalloc_debug.so.4.5.5
+lrwxrwxrwx 1 root root   26 Sep 11 19:27 /usr/local/lib/libtcmalloc_debug.so.4 -> libtcmalloc_debug.so.4.5.5
+-rwxr-xr-x 1 root root 3.1M Sep 11 19:27 /usr/local/lib/libtcmalloc_debug.so.4.5.5
+-rwxr-xr-x 1 root root  978 Sep 11 19:27 /usr/local/lib/libtcmalloc.la
+-rw-r--r-- 1 root root 3.3M Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal.a
+-rw-r--r-- 1 root root 4.0M Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal_debug.a
+-rwxr-xr-x 1 root root 1.1K Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal_debug.la
+lrwxrwxrwx 1 root root   34 Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal_debug.so -> libtcmalloc_minimal_debug.so.4.5.5
+lrwxrwxrwx 1 root root   34 Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal_debug.so.4 -> libtcmalloc_minimal_debug.so.4.5.5
+-rwxr-xr-x 1 root root 1.7M Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal_debug.so.4.5.5
+-rwxr-xr-x 1 root root 1.0K Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal.la
+lrwxrwxrwx 1 root root   28 Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal.so -> libtcmalloc_minimal.so.4.5.5
+lrwxrwxrwx 1 root root   28 Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal.so.4 -> libtcmalloc_minimal.so.4.5.5
+-rwxr-xr-x 1 root root 1.4M Sep 11 19:27 /usr/local/lib/libtcmalloc_minimal.so.4.5.5
+lrwxrwxrwx 1 root root   20 Sep 11 19:27 /usr/local/lib/libtcmalloc.so -> libtcmalloc.so.4.5.5
+lrwxrwxrwx 1 root root   20 Sep 11 19:27 /usr/local/lib/libtcmalloc.so.4 -> libtcmalloc.so.4.5.5
+-rwxr-xr-x 1 root root 2.8M Sep 11 19:27 /usr/local/lib/libtcmalloc.so.4.5.5
+```
+
+## tcmalloc 使用
+
+tcmalloc 的使用对代码没有侵入，只需要在源码编译的时候加上 -g，在启动程序的时候使用：
+
+```
+LD_PRELOAD=/usr/local/lib/libtcmalloc.so HEAPCHECK=normal ./test_program
+```
+
+- LD_PRELOAD : 指定 libtcmalloc.so 的路径
+
+- HEAPCHECK: 指定检查等级。包括 minimal, normal, strict, draconian 这四种等级。具体差别参考文档： gperftools/docs/heap_checker.html 。如果 normal 没有检查出来问题的话，再用 draconian 试试。
+
+tcmalloc 的具体使用可以参考文章 1 的测试用例。
+
+## 内存泄漏分析
+
+测试 geo 程序内存是否有内存泄漏，由于程序中添加的有一些缓存，这部分内存没有释放操作，这里为了便于分析内存检测结果，在处理完每个时间点后手动释放缓存。另外 dump 数据那部分代码对内存没有影响，也先屏蔽掉。最后修改一下代码让程序运行两个时间点后退出，并且每个处理完每个时间点后都清理缓存，然后编译测试，测试时使用一个小源 rrc11，便于尽快输出测试结果（一个时间点也需要一个小时）：
+
+```
+LD_PRELOAD=/usr/local/lib/libtcmalloc.so HEAPCHECK=normal ./start-consumer-cluster.sh
+```
+
+输出结果：
+
+```
+Have memory regions w/o callers: might report false leaks                                                                            
+No leaks found for check "_main_" (but no 100% guarantee that there aren't any): found 45895831 reachable heap objects of 1049747917 bytes
+Have memory regions w/o callers: might report false leaks                                                                            
+Leak check _main_ detected leaks of 12 bytes in 1 objects                                                                            
+The 1 largest leaks:                                                                                                                 
+*** WARNING: Cannot convert addresses to symbols in output below.                                                                    
+*** Reason: Cannot find 'pprof' (is PPROF_PATH set correctly?)                                                                       
+*** If you cannot fix this, try running pprof directly.                                                                             
+Leak of 12 bytes in 1 objects allocated from:                                                                                        
+        @ 5592acce4f2e                                                                                                               
+        @ 5592accde98b                                                                                                               
+        @ 5592acc8de67                                                                                                               
+        @ 7f6f1be41b97                                                                                                               
+        @ 5592acc8f54a                                                                                                               
+                                                                                                                                     
+                                                                                                                                     
+If the preceding stack traces are not enough to find the leaks, try running THIS shell command:                                      
+                                                                                                                                     
+pprof bash "/tmp/bash.25020._main_-end.heap" --inuse_objects --lines --heapcheck  --edgefraction=1e-10 --nodefraction=1e-10 --gv     
+                                                                                                                                     
+If you are still puzzled about why the leaks are there, try rerunning this program with HEAP_CHECK_TEST_POINTER_ALIGNMENT=1 and/or w$
+th HEAP_CHECK_MAX_POINTER_OFFSET=-1                                                                                                  
+If the leak report occurs in a small fraction of runs, try running with TCMALLOC_MAX_FREE_QUEUE_SIZE of few hundred MB or with TCMALL
+OC_RECLAIM_MEMORY=false, it might help find leaks more repeatably                                                                    
+Exiting with error code (instead of crashing) because of whole-program memory leaks                                                  
+```
+
+程序执行完后，输出 heap 文件到 `/tmp/bash.25020._main_-end.heap`，使用 pprof 工具解析 heap 文件，获取每一个内存泄漏的位置及调用堆栈：
+
+```
+pprof ./ipwave_consumer_geo_cleancache "/tmp/bash.25020._main_-end.heap" --lines --text --stack > memleak
+```
+
+```
+cat memleak
+
+Total: 0.0 MB
+Stacks:
+
+12       (00005592acce4f2e) ??:0:0x00005592acce4f2e
+         (00005592accde98a) ??:0:0x00005592accde98a
+         (00005592acc8de66) ??:0:0x00005592acc8de66
+         (00007f6f1be41b96) /build/glibc-2ORdQG/glibc-2.27/csu/../csu/libc-start.c:310:__libc_start_main
+         (00005592acc8f549) ??:0:0x00005592acc8f549
+
+Leak of 12 bytes in 1 objects allocated from:
+	@ 5592acce4f2e unknown
+	@ 00005592accde98a 0x00005592accde98a ??:0
+	@ 00005592acc8de66 0x00005592acc8de66 ??:0
+	@ 00007f6f1be41b96 __libc_start_main /build/glibc-2ORdQG/glibc-2.27/csu/../csu/libc-start.c:310
+	@ 00005592acc8f549 0x00005592acc8f549 ??:0
+
+     0.0 100.0% 100.0%      0.0 100.0% 0x00005592acce4f2e ??:0
+     0.0   0.0% 100.0%      0.0 100.0% 0x00005592acc8de66 ??:0
+     0.0   0.0% 100.0%      0.0 100.0% 0x00005592acc8f549 ??:0
+     0.0   0.0% 100.0%      0.0 100.0% 0x00005592accde98a ??:0
+     0.0   0.0% 100.0%      0.0 100.0% __libc_start_main /build/glibc-2ORdQG/glibc-2.27/csu/../csu/libc-start.c:310
+```
+
+未检测到有没存泄漏的地方。
+
+实际测试过程中，使用 rrc11 这个源跑测试代码，处理单个源的线程个数设置为 5，处理到大概 10 个时间点的数据后，内存稳定在 34G 左右。
+
+测试三个源（rrc03, rrc11, route-views-chicago）的数据时，内存占用占用比较大，且处理前几个时间点时内存增长比较明显，所以怀疑有内存泄漏问题，但是使用内存检测工具 gperftool 检测后发现没有内存泄漏问题。
+
+通过查找内存申请和释放相关的资料，发现进程释放的内存不会立即被操作系统回收，而是先放到一个 list 中，有其他申请内存的操作时，先从这个 list 中申请，具体的实现根据 malloc 和 free 的实现决定。
+
+网动仪程序中内存的申请和释放非常多，有时候释放的内存可能还没有被操作系统回收，而这时又有大量的内存申请操作，导致重新申请了内存空间，当累计申请的内存空间到达一定的量时，操作系统可能就可以释放出足够下次申请使用的内存量，这时内存申请和消耗大概就能平衡了。
+
+所以最终怀疑是操作系统方面的内存管理导致的内存占用问题，程序不存在内存泄漏，但是程序的内存占用空间会比较大。
+
+
+参考文章：
+
+1. [内存泄漏分析工具：tcmalloc](http://qiushao.net/2020/07/11/Linux/memory-leak-analyze-tcmalloc/)
+
+2. [Inside memory management](https://link.zhihu.com/?target=http%3A//www.ibm.com/developerworks/linux/library/l-memory/)
