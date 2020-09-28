@@ -15,3 +15,7 @@ add_executable(task1 task/task1/WorkManager.cpp task/task1/WorkManager.h task/ta
 add_executable(template template/template_test.cpp template/class_template.h template/class_func_template.h)
 
 add_executable(myarray task/task2/main.cpp task/task2/Person.hpp task/task2/MyArray.hpp)
+
+add_executable(leetcode_test
+        leetcode/main.cpp
+        leetcode/1290/leetcode1290.cpp)
