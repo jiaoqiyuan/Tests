@@ -17,5 +17,5 @@ add_executable(template template/template_test.cpp template/class_template.h tem
 add_executable(myarray task/task2/main.cpp task/task2/Person.hpp task/task2/MyArray.hpp)
 
 add_executable(leetcode_test
-        leetcode/main.cpp
-        leetcode/1290/leetcode1290.cpp)
+        leetcode/main.cpp leetcode/1290/leetcode1290.cpp
+        leetcode/offer22/offer22.cpp leetcode/offer22/offer22.h)

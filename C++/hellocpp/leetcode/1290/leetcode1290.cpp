@@ -2,13 +2,10 @@
 // Created by mac on 2020/9/28.
 //
 #include "iostream"
-using namespace std;
+#include "leetcode1290.h"
+#include "../ListNode.h"
 
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
-};
+using namespace std;
 
 class Solution {
 public:
