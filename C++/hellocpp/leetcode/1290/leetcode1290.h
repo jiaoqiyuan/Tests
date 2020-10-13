@@ -5,6 +5,6 @@
 #ifndef HELLOCPP_LEETCODE1290_H
 #define HELLOCPP_LEETCODE1290_H
 
-int test1290();
+void test1290();
 
 #endif //HELLOCPP_LEETCODE1290_H

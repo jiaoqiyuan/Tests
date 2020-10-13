@@ -2,7 +2,6 @@
 // Created by mac on 2020/9/29.
 //
 
-#include "offer22.h"
 #include "iostream"
 #include "../ListNode.h"
 

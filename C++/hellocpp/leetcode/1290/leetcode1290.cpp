@@ -28,7 +28,7 @@ public:
     }
 };
 
-int test1290() {
+void test1290() {
     auto *node1 = new ListNode(1);
     auto *node2 = new ListNode(0);
     auto *node3 = new ListNode(1);

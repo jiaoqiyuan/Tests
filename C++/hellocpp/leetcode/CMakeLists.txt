@@ -9,5 +9,6 @@ add_executable(leetcode main.cpp ListNode.h
     1290/leetcode1290.cpp
     1290/leetcode1290.h
     offer22/offer22.cpp
-    offer22/offer22.h    
+    offer22/offer22.h
+    offer18/offer18.cpp
 )
