@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <functional>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
