@@ -9,5 +9,6 @@ using namespace std;
 int main() {
     // test1290();
     // test_offer22();
-    test_offer18();
+    // test_offer18();
+    testIsPalindrome();
 }

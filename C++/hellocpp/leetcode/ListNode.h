@@ -13,5 +13,6 @@ struct ListNode {
 
 void test_offer18();
 void test_offer22();
+void testIsPalindrome();
 
 #endif //HELLOCPP_LISTNODE_H
