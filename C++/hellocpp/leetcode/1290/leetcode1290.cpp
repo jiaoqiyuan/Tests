@@ -2,7 +2,6 @@
 // Created by mac on 2020/9/28.
 //
 #include "iostream"
-#include "leetcode1290.h"
 #include "../ListNode.h"
 
 using namespace std;
@@ -36,6 +35,10 @@ void test1290() {
     node2->next = node3;
     Solution solution;
     int ret = solution.getDecimalValue(node1);
-    cout << ret;
+    cout << ret << endl;
+}
+
+int main() {
+    test1290();
 }
 

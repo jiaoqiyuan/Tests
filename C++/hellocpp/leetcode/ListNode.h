@@ -11,8 +11,10 @@ struct ListNode {
     ListNode(int x) : val(x), next(NULL) {}
 };
 
+void test1290();
 void test_offer18();
 void test_offer22();
 void testIsPalindrome();
+void test_leetcode2();
 
 #endif //HELLOCPP_LISTNODE_H

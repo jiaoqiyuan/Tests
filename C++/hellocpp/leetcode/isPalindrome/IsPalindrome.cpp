@@ -40,3 +40,7 @@ void testIsPalindrome() {
     bool result = solution.isPalindrome(node1);
     cout << result << endl;
 }
+
+int main() {
+    testIsPalindrome();
+}

@@ -53,3 +53,7 @@ void test_offer18() {
         node = node->next;
     }
 }
+
+int main() {
+    test_offer18();
+}

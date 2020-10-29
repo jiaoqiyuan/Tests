@@ -45,3 +45,7 @@ void test_offer22() {
         node = node->next;
     }
 }
+
+int main() {
+    test_offer22();
+}
