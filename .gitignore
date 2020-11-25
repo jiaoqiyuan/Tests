@@ -56,3 +56,6 @@ dkms.conf
 
 *.json
 C++/C++_learn/build
+
+Python/intervaltree/venv
+Python/intervaltree/__pycache__
