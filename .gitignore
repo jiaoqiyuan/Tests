@@ -53,3 +53,6 @@ dkms.conf
 
 *.swp
 .vscode/
+
+*.json
+C++/C++_learn/build
