@@ -1,0 +1,1 @@
+使用 `vscode` 的插件来编写 leetcode 的解体方法，插件安装方法很简单，在 vscode 的 "扩展" 中搜索 `leetcode` 即可。
