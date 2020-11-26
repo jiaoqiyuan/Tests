@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jqy/githubs/Tests/C++/leetcode/1290/leetcode1290.cpp
+iostream
+/home/jqy/githubs/Tests/C++/leetcode/1290/iostream
+../ListNode.h
+/home/jqy/githubs/Tests/C++/leetcode/ListNode.h
+
+/home/jqy/githubs/Tests/C++/leetcode/ListNode.h
+

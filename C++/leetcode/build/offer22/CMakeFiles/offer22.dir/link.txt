@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/offer22.dir/offer22.cpp.o  -o offer22 

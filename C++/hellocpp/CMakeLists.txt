@@ -22,7 +22,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(constructor)
 add_subdirectory(friend)
-add_subdirectory(leetcode)
 add_subdirectory(OperatorOverload)
 add_subdirectory(smart_pointer)
 add_subdirectory(task)

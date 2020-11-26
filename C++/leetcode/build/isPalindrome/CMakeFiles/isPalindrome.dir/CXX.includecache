@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jqy/githubs/Tests/C++/leetcode/ListNode.h
+
+/home/jqy/githubs/Tests/C++/leetcode/isPalindrome/IsPalindrome.cpp
+iostream
+-
+../ListNode.h
+/home/jqy/githubs/Tests/C++/leetcode/ListNode.h
+
