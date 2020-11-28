@@ -150,6 +150,19 @@ offer18/fast:
 .PHONY : offer18/fast
 
 #=============================================================================
+# Target rules for targets named test
+
+# Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	$(MAKE) -f offer22/CMakeFiles/test.dir/build.make offer22/CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+#=============================================================================
 # Target rules for targets named offer22
 
 # Build rule for target.
@@ -186,6 +199,7 @@ help:
 	@echo "... leetcode1290"
 	@echo "... leetcode2"
 	@echo "... offer18"
+	@echo "... test"
 	@echo "... offer22"
 	@echo "... isPalindrome"
 .PHONY : help

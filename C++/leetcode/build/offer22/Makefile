@@ -111,6 +111,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+offer22/CMakeFiles/test.dir/rule:
+	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f CMakeFiles/Makefile2 offer22/CMakeFiles/test.dir/rule
+.PHONY : offer22/CMakeFiles/test.dir/rule
+
+# Convenience name for target.
+test: offer22/CMakeFiles/test.dir/rule
+
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f offer22/CMakeFiles/test.dir/build.make offer22/CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+# Convenience name for target.
 offer22/CMakeFiles/offer22.dir/rule:
 	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f CMakeFiles/Makefile2 offer22/CMakeFiles/offer22.dir/rule
 .PHONY : offer22/CMakeFiles/offer22.dir/rule
@@ -124,6 +139,33 @@ offer22: offer22/CMakeFiles/offer22.dir/rule
 offer22/fast:
 	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f offer22/CMakeFiles/offer22.dir/build.make offer22/CMakeFiles/offer22.dir/build
 .PHONY : offer22/fast
+
+leetcode143.o: leetcode143.cpp.o
+
+.PHONY : leetcode143.o
+
+# target to build an object file
+leetcode143.cpp.o:
+	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f offer22/CMakeFiles/test.dir/build.make offer22/CMakeFiles/test.dir/leetcode143.cpp.o
+.PHONY : leetcode143.cpp.o
+
+leetcode143.i: leetcode143.cpp.i
+
+.PHONY : leetcode143.i
+
+# target to preprocess a source file
+leetcode143.cpp.i:
+	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f offer22/CMakeFiles/test.dir/build.make offer22/CMakeFiles/test.dir/leetcode143.cpp.i
+.PHONY : leetcode143.cpp.i
+
+leetcode143.s: leetcode143.cpp.s
+
+.PHONY : leetcode143.s
+
+# target to generate assembly for a file
+leetcode143.cpp.s:
+	cd /home/jqy/githubs/Tests/C++/leetcode/build && $(MAKE) -f offer22/CMakeFiles/test.dir/build.make offer22/CMakeFiles/test.dir/leetcode143.cpp.s
+.PHONY : leetcode143.cpp.s
 
 offer22.o: offer22.cpp.o
 
@@ -160,7 +202,11 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... test"
 	@echo "... offer22"
+	@echo "... leetcode143.o"
+	@echo "... leetcode143.i"
+	@echo "... leetcode143.s"
 	@echo "... offer22.o"
 	@echo "... offer22.i"
 	@echo "... offer22.s"

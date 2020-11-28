@@ -11,6 +11,7 @@
 /home/jqy/githubs/Tests/C++/leetcode/build/offer18/CMakeFiles/offer18.dir
 /home/jqy/githubs/Tests/C++/leetcode/build/offer22/CMakeFiles/rebuild_cache.dir
 /home/jqy/githubs/Tests/C++/leetcode/build/offer22/CMakeFiles/edit_cache.dir
+/home/jqy/githubs/Tests/C++/leetcode/build/offer22/CMakeFiles/test.dir
 /home/jqy/githubs/Tests/C++/leetcode/build/offer22/CMakeFiles/offer22.dir
 /home/jqy/githubs/Tests/C++/leetcode/build/isPalindrome/CMakeFiles/rebuild_cache.dir
 /home/jqy/githubs/Tests/C++/leetcode/build/isPalindrome/CMakeFiles/edit_cache.dir
