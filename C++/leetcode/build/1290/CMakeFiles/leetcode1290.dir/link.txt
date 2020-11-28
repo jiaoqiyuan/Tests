@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/leetcode1290.dir/leetcode1290.cpp.o  -o leetcode1290 
