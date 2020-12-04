@@ -37,11 +37,11 @@
                 "hidden": false,
                 "name": "Ubuntu-20.04",
                 "source": "Windows.Terminal.Wsl",
-				"fontSize": 9,
-				"colorScheme": "Dracula",
-				"cursorShape" : "filledBox",
-				"cursorColor" : "#52e382",
-				"startingDirectory": "//wsl$/Ubuntu-20.04/home/jqy/"
+		"fontSize": 9,
+		"colorScheme": "Dracula",
+		"cursorShape" : "filledBox",
+		"cursorColor" : "#52e382",
+		"startingDirectory": "//wsl$/Ubuntu-20.04/home/jqy/"
             },
             {
                 // Make changes here to the powershell.exe profile.
