@@ -58,5 +58,7 @@ dkms.conf
 C++/C++_learn/build
 C++/leetcode/build
 
+C/pthread/build
+
 Python/intervaltree/venv
 Python/intervaltree/__pycache__

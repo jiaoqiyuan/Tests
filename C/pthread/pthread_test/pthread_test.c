@@ -38,13 +38,11 @@ int main()
     void *ret1, *ret2;
     pthread_create(&tid1, NULL, thread1_main, NULL);
     pthread_create(&tid2, NULL, thread2_main, NULL);
-	/*
     while (1) {
         printf("This is thread main\n");
 		// 0.5s
         Sleep(1000);
     }
-	*/
     pthread_join(tid1, &ret1);
     pthread_join(tid2, &ret2);
 	
