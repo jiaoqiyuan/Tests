@@ -16,16 +16,11 @@ static void stop(int sig){
     还是传递失败(rkmessage->err != RD_KAFKA_RESP_ERR_NO_ERROR)
     该回调函数由rd_kafka_poll()触发，在应用程序的线程上执行
  */
-static void dr_msg_cb(rd_kafka_t *rk,
-					  const rd_kafka_message_t *rkmessage, void *opaque){
+static void dr_msg_cb(rd_kafka_t *rk, const rd_kafka_message_t *rkmessage, void *opaque) {
 		if(rkmessage->err)
-			fprintf(stderr, "%% Message delivery failed: %s\n", 
-					rd_kafka_err2str(rkmessage->err));
+			fprintf(stderr, "%% Message delivery failed: %s\n", rd_kafka_err2str(rkmessage->err));
 		else
-			fprintf(stderr,
-                        "%% Message delivered (%zd bytes, "
-                        "partition %"PRId32")\n",
-                        rkmessage->len, rkmessage->partition);
+			fprintf(stderr, "%% Message delivered (%zd bytes, partition %PRId32)\n", rkmessage->len, rkmessage->partition);
         /* rkmessage被librdkafka自动销毁*/
 }
  
