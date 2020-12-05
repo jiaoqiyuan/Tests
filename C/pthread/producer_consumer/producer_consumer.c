@@ -66,6 +66,7 @@ void *consumer(void *ptr) {
 int main(){
     pthread_t thread_producer, thread_consumer;
     pthread_mutex_init(&the_mutex, NULL);
+    // 也可以采用信号量的方式 sem_t semaphore.h
     pthread_cond_init(&condc, NULL);
     pthread_cond_init(&condp, NULL);
     if (pthread_create(&thread_producer, NULL, producer, NULL) != 0) {
