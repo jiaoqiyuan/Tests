@@ -55,10 +55,15 @@ dkms.conf
 .vscode/
 
 *.json
+
+# C++ 文件
 C++/C++_learn/build
 C++/leetcode/build
 
+# C 文件
 C/pthread/build
+C/array/build
 
+# Python 文件
 Python/intervaltree/venv
 Python/intervaltree/__pycache__
