@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 11)
 # windows下乱码问题
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK")
 
-add_executable(dynamic_array dynamic_array.c)
+add_executable(const_string_test const_string_contain.c)
