@@ -59,6 +59,7 @@ dkms.conf
 # C++ 文件
 C++/C++_learn/build
 C++/leetcode/build
+C++/book_exercise/build
 
 # C 文件
 C/pthread/build
