@@ -17,20 +17,39 @@
  */
 class Solution {
 public:
-    // TODO超时，使用归并排序的思路
     ListNode* sortList(ListNode* head) {
-        if (head == NULL || head->next == NULL) return head;
-
-        ListNode *dummy = new ListNode(-1);
-        while(head) {
-            ListNode *p = dummy;
-            while(p->next && p->next->val < head->val) p = p->next;
-            ListNode *q = head;
-            head = head->next;
-            q->next = p->next;
-            p->next = q;
+        return mergeSort(head);
+    }
+    
+    ListNode* mergeSort(ListNode* node) {
+        if (!node || !node->next) return node;
+        //快慢指针
+        ListNode* fast = node;
+        ListNode* slow = node;
+        ListNode* breakN = node;
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            breakN = slow;
+            slow = slow->next;
         }
-        return dummy->next;
+        breakN->next = nullptr;
+        ListNode *l1 = mergeSort(node);
+        ListNode *l2 = mergeSort(slow);
+        return merge(l1, l2);
+    }
+    
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        //递归到底的情况
+        if (l1 == nullptr) return l2;
+        if (l2 == nullptr) return l1;
+        //分情况递归实现
+        if (l1->val <= l2->val) {
+            l1->next = merge(l1->next, l2);
+            return l1;
+        } else {
+            l2->next = merge(l2->next, l1);
+            return l2;
+        }
     }
 };
 // @lc code=end
