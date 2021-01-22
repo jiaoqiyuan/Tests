@@ -64,6 +64,7 @@ C++/book_exercise/algorithum/build
 # C 文件
 C/pthread/build
 C/array/build
+C/struct/build
 
 # Python 文件
 Python/intervaltree/venv
