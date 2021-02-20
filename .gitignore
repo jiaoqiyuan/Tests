@@ -62,6 +62,7 @@ C++/leetcode/build
 C++/book_exercise/algorithum/build
 
 # C 文件
+C/build
 C/pthread/build
 C/array/build
 C/struct/build

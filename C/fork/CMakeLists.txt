@@ -5,6 +5,5 @@ set(CMAKE_CXX_STANDARD 11)
 # windows下乱码问题
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK")
 
-add_subdirectory(pthread)
-add_subdirectory(array)
-add_subdirectory(fork)
+add_executable(fork fork_test.c)
+
