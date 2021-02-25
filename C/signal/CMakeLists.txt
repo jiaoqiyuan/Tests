@@ -6,3 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK")
 
 add_executable(signal signal.c)
+add_executable(sigtest sigtest.c)

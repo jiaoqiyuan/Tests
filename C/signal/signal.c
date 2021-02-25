@@ -59,8 +59,7 @@ int main(void)
     // 父进程
     else
     {
-        // sleep(1);//休眠，保证子进程先运行，并且发送SIGUSR1信号
-        // printf("parent process\n");
+        //休眠，保证子进程先运行，并且发送SIGUSR1信号，这里的延时好像没什么用
         sleep(1);
         // 父进程向自己发送SIGUSER2信号
         if(kill(cpid, SIGUSR2) == -1)
