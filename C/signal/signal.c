@@ -44,6 +44,7 @@ int main(void)
         perror("fail to fork\n");
         exit(1);
     }
+    //子进程
     else if(cpid == 0)
     {
         // 子进程内向父进程发送信号SIGUSER1
@@ -55,9 +56,12 @@ int main(void)
  
         while(1);//死循环，等待父进程的信号
     }
+    // 父进程
     else
     {
-        sleep(1);//休眠，保证子进程先运行，并且发送SIGUSR1信号
+        // sleep(1);//休眠，保证子进程先运行，并且发送SIGUSR1信号
+        // printf("parent process\n");
+        sleep(1);
         // 父进程向自己发送SIGUSER2信号
         if(kill(cpid, SIGUSR2) == -1)
         {
