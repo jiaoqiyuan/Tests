@@ -7,3 +7,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(signal signal.c)
 add_executable(sigtest sigtest.c)
+add_executable(signal_alarm signal_alarm.c)
