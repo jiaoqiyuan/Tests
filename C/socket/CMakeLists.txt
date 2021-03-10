@@ -5,10 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 # windows下乱码问题
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK")
 
-add_subdirectory(pthread)
-add_subdirectory(array)
-add_subdirectory(fork)
-add_subdirectory(signal)
-add_subdirectory(io)
-add_subdirectory(IPC)
-add_subdirectory(socket)
+set(CMAKE_C_FLAGS "-pthread")
+message(STATUS "THREADS_HAVE_PTHREAD_ARG set c_flags: -pthread.")
+
+add_subdirectory(getaddrinfo)
