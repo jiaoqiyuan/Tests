@@ -1,9 +1,9 @@
-#include "../../../include/apue.h"
+#include "../../include/apue.h"
 #include <sys/socket.h>
 
 #define MAXSLEEP 128
 
-int connnect_retry(int domain, int type, int protocol, const struct sockaddr *addr, socklen_t alen) {
+int connect_retry(int domain, int type, int protocol, const struct sockaddr *addr, socklen_t alen) {
     int numsec, fd;
     /**
      * Try to connect with exponential backoff
