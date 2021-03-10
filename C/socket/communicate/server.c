@@ -26,12 +26,13 @@ void serve(int sockfd) {
 
     set_cloexec(sockfd);
     for (;;) {
+        printf("hello\n");
         if ((clfd = accept(sockfd, NULL, NULL)) < 0) {
             syslog(LOG_ERR, "ruptimed: accept error: %s\n", strerror(errno));
             exit(1);
         }
         set_cloexec(clfd);
-        if ((fp = popen("/usr/biin/uptime", "r")) == NULL) {
+        if ((fp = popen("/usr/bin/uptime", "r")) == NULL) {
             sprintf(buf, "error: %s\n", strerror(errno));
             send(clfd, buf, strlen(buf), 0);
         } else {
@@ -74,7 +75,7 @@ int main(int argc, char *argv[]) {
     hint.ai_canonname = NULL;
     hint.ai_addr = NULL;
     hint.ai_next = NULL;
-    if ((err = getaddrinfo(host, "uptime", &hint, &ailist)) != 0) {
+    if ((err = getaddrinfo(host, "nfs", &hint, &ailist)) != 0) {
         // syslog(LOG_ERR, "ruptimed: getaddrinfo error: %s", gai_strerror(err));
         printf("ruptimed: getaddrinfo error: %s\n", gai_strerror(err));
         exit(1);
