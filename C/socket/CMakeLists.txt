@@ -10,3 +10,4 @@ message(STATUS "THREADS_HAVE_PTHREAD_ARG set c_flags: -pthread.")
 
 add_subdirectory(getaddrinfo)
 add_subdirectory(communicate)
+add_subdirectory(communicate_udp)
