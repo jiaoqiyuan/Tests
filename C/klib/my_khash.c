@@ -40,29 +40,54 @@ void free_my_kh(khash_t(map_char_set) *m_char_set){
 	kh_destroy(map_char_set, m_char_set);
 }
 
-int main() {
-	khash_t(map_char_set) *m_char_set = kh_init(map_char_set);
-
-	char *key1 = (char *)malloc(32);
-	snprintf(key1, 32, "This is key1.");
-	printf("key1 = %s\n", key1);
-
+int insert_data(khash_t(map_char_set) *m_char_set, char *key, char *value) {
 	khiter_t k = 0;
 	int ret = 0;
-	char *value1 = (char *)malloc(32);
-	if ((k = kh_get(map_char_set, m_char_set, key1)) == kh_end(m_char_set)) {
-		snprintf(value1, 32, "This is value1.");
-		k = kh_put(map_char_set, m_char_set, key1, &ret);
+	if ((k = kh_get(map_char_set, m_char_set, key)) == kh_end(m_char_set)) {
+		k = kh_put(map_char_set, m_char_set, key, &ret);
 		assert(ret != -1);
-		kh_value(m_char_set, k) = value1;
+		kh_value(m_char_set, k) = value;
 	}
 	assert(kh_exist(m_char_set, k));
-	char *result = kh_value(m_char_set, k);
-	assert(result != NULL);
-	printf("result = %s\n", result);
-	//free_my_kh(m_char_set);
-    //free(key1);
-    //free(key1);
-    //free(value1);
+
+	return 0;
+}
+
+int main()
+{
+	khash_t(map_char_set) *m_char_set = kh_init(map_char_set);
+
+
+	//insert_data(m_char_set, "key1", "value1");
+	//insert_data(m_char_set, "key2", "value2");
+	//insert_data(m_char_set, "key3", "value3");
+	//insert_data(m_char_set, "key4", "value4");
+	//insert_data(m_char_set, "key5", "value5");
+	//insert_data(m_char_set, "key6", "value6");
+	//insert_data(m_char_set, "key7", "value7");
+	//insert_data(m_char_set, "key8", "value8");
+	//insert_data(m_char_set, "key9", "value9");
+	//insert_data(m_char_set, "key10", "value10");
+
+    for (int i = 0; i < 30; i++) {
+        char *key = malloc(32);
+        snprintf(key, 32, "key%d", i);
+        char *value = malloc(32);
+        snprintf(value, 32, "value%d", i);
+        insert_data(m_char_set, key, value);
+    }
+
+	khiter_t iter = 0;
+	for(iter = kh_begin(m_char_set); iter != kh_end(m_char_set); iter++) {
+		if(!kh_exist(m_char_set, iter)) {
+            continue;
+        }
+        char *key = kh_key(m_char_set, iter);
+        char *value = kh_value(m_char_set, iter);
+        printf("key = %s, value = %s\n", key, value);
+	}
+
+	
+	free_my_kh(m_char_set);
 	return 0;
 }
