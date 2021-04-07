@@ -160,11 +160,12 @@ int main(){
     test_map(ip_sums);
     // 删除第一个元素
     uint64_t *shift_elem = kdq_shift(uint64_t, ip_sums);
-    free(shift_elem);
+    // test free
+    // free(shift_elem);
     // show_kdq_int(ip_sums);
     // 恢复删除的元素
     // kdq_unshiftp(int, ip_sums);
     // show_kdq_int(ip_sums);
-    // kdq_destroy(uint64_t, ip_sums);
+    kdq_destroy(uint64_t, ip_sums);
     return 0;
 }
