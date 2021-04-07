@@ -127,7 +127,7 @@ void show_kdq_int(kdq_t(int) *ip_sums){
 void test_map(kdq_t(uint64_t) *ip_sums) {
     map_data_t *head = init();
     size_t dq_size = kdq_size(ip_sums);
-    printf("dq_size is %d\n", dq_size);
+    printf("dq_size is %zu\n", dq_size);
     // 存储数据到 map 中
     for (int i = dq_size - 2; i >= 0; --i) {
         uint64_t ip_sum = kdq_at(ip_sums, i);
@@ -159,11 +159,12 @@ int main(){
     test_map(ip_sums);
     test_map(ip_sums);
     // 删除第一个元素
-    // kdq_shift(int, ip_sums);
+    uint64_t *shift_elem = kdq_shift(uint64_t, ip_sums);
+    free(shift_elem);
     // show_kdq_int(ip_sums);
     // 恢复删除的元素
     // kdq_unshiftp(int, ip_sums);
     // show_kdq_int(ip_sums);
-    kdq_destroy(uint64_t, ip_sums);
+    // kdq_destroy(uint64_t, ip_sums);
     return 0;
 }
