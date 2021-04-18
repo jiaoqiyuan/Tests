@@ -1,4 +1,4 @@
-TARGETS = my_klib
+TARGETS = my_klib_dq
 #CFLAGS  = -Werror -m64 -g3 -std=c11
 CFLAGS  = -m64 -g3 -std=c11
 

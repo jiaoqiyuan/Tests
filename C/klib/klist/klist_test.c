@@ -75,7 +75,21 @@ void list_iter_test() {
     }
 }
 
+void insert_list_test() {
+    klist_t(list_int_set) *int_set = kl_init(list_int_set);
+    for(int i = 0; i < 5000; i++) {
+        *kl_pushp(list_int_set, int_set) = i;
+    }
+    kliter_t(list_int_set) *iter_list = NULL;
+
+    for(iter_list = kl_begin(int_set); iter_list != kl_end(int_set); iter_list = kl_next(iter_list)) {
+        int value = kl_val(iter_list);
+        printf("value = %d\n", value);
+    }
+}
+
 int main() {
-    klist_test();
-    //list_iter_test();
+    // klist_test();
+    // list_iter_test();
+    insert_list_test();
 }

@@ -5,8 +5,8 @@
 #include <syslog.h>
 #include <fcntl.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 
-#define BUFLEN 128
 #define QLEN 10
 
 #ifndef HOST_NAME_MAX
@@ -18,9 +18,8 @@ extern int initserver(int, const struct sockaddr *, socklen_t, int);
 extern void set_cloexec(int fd);
 
 void serve(int sockfd) {
-    int clfd;
-    FILE *fp;
-    char buf[BUFLEN];
+    int clfd, status;
+    pid_t pid;
 
     set_cloexec(sockfd);
     for (;;) {
@@ -29,17 +28,23 @@ void serve(int sockfd) {
             syslog(LOG_ERR, "ruptimed: accept error: %s\n", strerror(errno));
             exit(1);
         }
-        set_cloexec(clfd);
-        if ((fp = popen("/usr/bin/uptime", "r")) == NULL) {
-            sprintf(buf, "error: %s\n", strerror(errno));
-            send(clfd, buf, strlen(buf), 0);
-        } else {
-            while (fgets(buf, BUFLEN, fp) != NULL) {
-                send(clfd, buf, strlen(buf), 0);
+        if ((pid = fork()) < 0) {
+            syslog(LOG_ERR, "ruptimed: fork error: %s", strerror(errno));
+            exit(1);
+        } else if (pid == 0) {
+            // child
+            if (dup2(clfd, STDOUT_FILENO) != STDOUT_FILENO || dup2(clfd, STDERR_FILENO) != STDERR_FILENO) {
+                syslog(LOG_ERR, "ruptimed: unexpected error");
+                exit(1);
             }
-            pclose(fp);
+            close(clfd);
+            execl("/usr/bin/uptime", "uptime", (char *)0);
+            syslog(LOG_ERR, "ruptimed: unexpected return from exec: %s", strerror(errno));
+        } else {
+            // parent
+            close(clfd);
+            waitpid(pid, &status, 0);
         }
-        close(clfd);
     }
 }
 
